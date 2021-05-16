@@ -20,6 +20,7 @@ The path may not include ../ or ..\
 The ID is used so that a. New sounds played with the same ID will stop previous sounds with that ID, and b. Sounds may be paused/stopped/resumed via ID
 
 Available commands and formats:
+
 `playsound|filename|ID (optional)` -- Play a sound without queuing - play overtop of any existing sounds
 
 `qsound|soundpackFolder|filename|ID (optional)` -- Play a queued sound - plays queued sounds in order from when they were called, waiting for previous ones to finish first
