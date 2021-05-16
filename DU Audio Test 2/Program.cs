@@ -96,37 +96,37 @@ namespace DU_Audio_Test_2
                     {
 
                         case "playsound":
-                            // Format: playsound|soundpackFolder|filename|ID (optional)
+                            // Format: playsound|filename|ID (optional)
                             // Remove ../ and ..\ from the filename for security
-                            arguments[2] = arguments[2].Replace("../", "").Replace("..\\", "");
-                            if (File.Exists(arguments[2]))
+                            arguments[1] = arguments[1].Replace("../", "").Replace("..\\", "");
+                            if (File.Exists(arguments[1]))
                             {
-                                if (!cachedFileMap.ContainsKey(arguments[2]))
+                                if (!cachedFileMap.ContainsKey(arguments[1]))
                                 {
-                                    cachedFileMap[arguments[2]] = new CachedSound(arguments[2]);
+                                    cachedFileMap[arguments[1]] = new CachedSound(arguments[1]);
                                 }
-                                if (arguments.Length > 3)
-                                    id = arguments[3];
+                                if (arguments.Length > 2)
+                                    id = arguments[2];
                                 else
                                     id = Guid.NewGuid().ToString();
-                                AudioPlaybackEngine.Instance.PlaySound(cachedFileMap[arguments[2]], id);
+                                AudioPlaybackEngine.Instance.PlaySound(cachedFileMap[arguments[1]], id);
                             }
                             break;
                         case "qsound":
                             // Format: qsound|soundpackFolder|filename|ID (optional)
                             // Remove ../ and ..\ from the filename for security
-                            arguments[2] = arguments[2].Replace("../", "").Replace("..\\", "");
-                            if (File.Exists(arguments[2]))
+                            arguments[1] = arguments[1].Replace("../", "").Replace("..\\", "");
+                            if (File.Exists(arguments[1]))
                             {
-                                if (!cachedFileMap.ContainsKey(arguments[2]))
+                                if (!cachedFileMap.ContainsKey(arguments[1]))
                                 {
-                                    cachedFileMap[arguments[2]] = new CachedSound(arguments[2]);
+                                    cachedFileMap[arguments[1]] = new CachedSound(arguments[1]);
                                 }
-                                if (arguments.Length > 3)
-                                    id = arguments[3];
+                                if (arguments.Length > 2)
+                                    id = arguments[2];
                                 else
                                     id = Guid.NewGuid().ToString();
-                                AudioPlaybackEngine.Instance.QueueSound(cachedFileMap[arguments[2]], id);
+                                AudioPlaybackEngine.Instance.QueueSound(cachedFileMap[arguments[1]], id);
                             }
                             break;
                         case "stopsound":
@@ -134,10 +134,11 @@ namespace DU_Audio_Test_2
                             break;
                         case "pausesound":
                             // Format: pausesound|ID
-                            // TODO - needs implementing, a collection of paused sounds
+                            AudioPlaybackEngine.Instance.PauseSound(arguments[1]);
                             break;
                         case "resumesound":
                             // Format: resumesound|ID
+                            AudioPlaybackEngine.Instance.ResumeSound(arguments[1]);
                             break;
                     }
                 }
@@ -157,6 +158,7 @@ namespace DU_Audio_Test_2
         public Dictionary<string, ISampleProvider> SampleMap { get; private set; } = new Dictionary<string, ISampleProvider>();
         private List<(CachedSound, string)> QueuedSounds = new List<(CachedSound, string)>();
         private bool disposedValue;
+        Dictionary<string, ISampleProvider> PausedSounds = new Dictionary<string, ISampleProvider>();
 
         public AudioPlaybackEngine(int sampleRate = 48000, int channelCount = 2)
         {
@@ -171,6 +173,24 @@ namespace DU_Audio_Test_2
         {
             if (SampleMap.ContainsKey(key)) // Stop inputs from anything with a matching key
                 mixer.RemoveMixerInput(SampleMap[key]);
+        }
+
+        public void PauseSound(string key)
+        {
+            if (SampleMap.ContainsKey(key))
+            {
+                mixer.RemoveMixerInput(SampleMap[key]);
+                PausedSounds[key] = SampleMap[key];
+            }
+        }
+
+        public void ResumeSound(string key)
+        {
+            if (PausedSounds.ContainsKey(key))
+            {
+                mixer.AddMixerInput(PausedSounds[key]);
+                PausedSounds.Remove(key);
+            }
         }
 
         public ISampleProvider PlaySound(CachedSound sound, string key)
