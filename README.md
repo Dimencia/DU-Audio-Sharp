@@ -30,3 +30,6 @@ Available commands and formats:
 `pausesound|ID` -- Pauses the sound with the given ID
 
 `resumesound|ID` -- Resumes the sound with the given ID
+
+
+All ID's are strings, and may be omitted if you don't care to manipulate them afterwards, and don't care about the same audio file being played overtop itself
