@@ -36,6 +36,9 @@ namespace DU_Audio_Test_2
 
             UpdateLogFile();
 
+            if (!Directory.Exists("Soundpacks"))
+                Directory.CreateDirectory("Soundpacks");
+
             var logWatchTimer = new System.Timers.Timer();
             logWatchTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
             {
@@ -271,6 +274,7 @@ namespace DU_Audio_Test_2
         public double Length { get; private set; }
         public CachedSound(string audioFileName)
         {
+            audioFileName = $@"Soundpacks{Path.DirectorySeparatorChar}{audioFileName}"; // TODO: Should this go here, or in the individual calls?
             using (var audioFileReader = new AudioFileReader(audioFileName))
             {
                 int outRate = 48000;
