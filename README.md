@@ -14,7 +14,7 @@ It is advised to rename your soundpacks to something unique, and input that name
 
 
 # Lua Scripters
-This works much like ZarTaen's framework, using our new standardized format.  In lua, 
+This works much like ZarTaen's framework, using our new standardized format.  In lua, for example, `system.logInfo("sound_play|some_thing.mp3|uniqueID|50")` per the parameters and commands below
 
 The path may not include ../ or ..\
 
