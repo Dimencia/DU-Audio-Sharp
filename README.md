@@ -14,8 +14,7 @@ It is advised to rename your soundpacks to something unique, and input that name
 
 
 # Lua Scripters
-This works much like ZarTaen's framework, for the most part.  You only need to send: 
-`system.logInfo("playsound|path_to/sound_file.mp3|Optional ID")`
+This works much like ZarTaen's framework, using our new standardized format
 The path may not include ../ or ..\
 The ID is used so that a. New sounds played with the same ID will stop previous sounds with that ID, and b. Sounds may be paused/stopped/resumed via ID
 
