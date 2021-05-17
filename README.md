@@ -8,9 +8,10 @@ Currently not available for the public except as source
 
 # Common Users
 Once available, download and run the .exe in the Releases tab (or compile it yourself from the source).  Place soundpacks into the Soundpacks folder
+
 The soundpacks folder is generated when the application first runs, or you can create it yourself
 
-It is advised to rename your soundpacks to something unique, and input that name into your scripts (if available), so that the birds at the market can't spam you with noises from the filepaths that they think you have
+It is advised to rename your soundpacks to something unique, and input that name into your scripts (if available), so that the birds at the market can't spam you with noises from the filepaths that they think you have.  Hopefully, the lua scripts will have an export variable where you can enter the filepath to the soundpack you want to use with that script
 
 
 # Lua Scripters
