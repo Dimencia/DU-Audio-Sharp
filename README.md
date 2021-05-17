@@ -22,7 +22,9 @@ The ID is used so that a. New sounds played with the same ID will stop previous 
 Available commands and formats:
 
 `sound_play|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Plays a concurrent sound
+
 `sound_notification|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Lowers volume on all other sounds for its duration, and plays overtop
+
 `sound_q|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Plays a sound after all other queued sounds finish
 
 -- The following use the IDs that were specified in the previous three
@@ -30,7 +32,9 @@ Available commands and formats:
 `sound_volume|ID(string)|Volume(int 0-100)`
 
 `sound_pause|Optional ID(string)` -- If no ID is specified, pauses all sounds
+
 `sound_stop|Optional ID(string)` -- If no ID is specified, stops all sounds
+
 `sound_resume|Optional ID(string)` -- If no ID is specified, resumes all paused sounds
 
 
