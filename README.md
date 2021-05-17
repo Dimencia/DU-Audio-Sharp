@@ -21,15 +21,17 @@ The ID is used so that a. New sounds played with the same ID will stop previous 
 
 Available commands and formats:
 
-`playsound|filename|ID (optional)` -- Play a sound without queuing - play overtop of any existing sounds
+`sound_play|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Plays a concurrent sound
+`sound_notification|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Lowers volume on all other sounds for its duration, and plays overtop
+`sound_q|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Plays a sound after all other queued sounds finish
 
-`qsound|soundpackFolder|filename|ID (optional)` -- Play a queued sound - plays queued sounds in order from when they were called, waiting for previous ones to finish first
+-- The following use the IDs that were specified in the previous three
 
-`stopsound|ID` -- Stops the sound with the given ID
+`sound_volume|ID(string)|Volume(int 0-100)`
 
-`pausesound|ID` -- Pauses the sound with the given ID
-
-`resumesound|ID` -- Resumes the sound with the given ID
+`sound_pause|Optional ID(string)` -- If no ID is specified, pauses all sounds
+`sound_stop|Optional ID(string)` -- If no ID is specified, stops all sounds
+`sound_resume|Optional ID(string)` -- If no ID is specified, resumes all paused sounds
 
 
 All ID's are strings, and may be omitted if you don't care to manipulate them afterwards, and don't care about the same audio file being played overtop itself
