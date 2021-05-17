@@ -14,22 +14,29 @@ It is advised to rename your soundpacks to something unique, and input that name
 
 
 # Lua Scripters
-This works much like ZarTaen's framework, for the most part.  You only need to send: 
-`system.logInfo("playsound|path_to/sound_file.mp3|Optional ID")`
+This works much like ZarTaen's framework, using our new standardized format.  In lua, for example, `system.logInfo("sound_play|some_thing.mp3|uniqueID|50")` per the parameters and commands below
+
 The path may not include ../ or ..\
+
 The ID is used so that a. New sounds played with the same ID will stop previous sounds with that ID, and b. Sounds may be paused/stopped/resumed via ID
 
-Available commands and formats:
+## Available commands and formats:
 
-`playsound|filename|ID (optional)` -- Play a sound without queuing - play overtop of any existing sounds
+`sound_play|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Plays a concurrent sound
 
-`qsound|soundpackFolder|filename|ID (optional)` -- Play a queued sound - plays queued sounds in order from when they were called, waiting for previous ones to finish first
+`sound_notification|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Lowers volume on all other sounds for its duration, and plays overtop
 
-`stopsound|ID` -- Stops the sound with the given ID
+`sound_q|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Plays a sound after all other queued sounds finish
 
-`pausesound|ID` -- Pauses the sound with the given ID
+-- The following use the IDs that were specified in the previous three
 
-`resumesound|ID` -- Resumes the sound with the given ID
+`sound_volume|ID(string)|Volume(int 0-100)`
+
+`sound_pause|Optional ID(string)` -- If no ID is specified, pauses all sounds
+
+`sound_stop|Optional ID(string)` -- If no ID is specified, stops all sounds
+
+`sound_resume|Optional ID(string)` -- If no ID is specified, resumes all paused sounds
 
 
 All ID's are strings, and may be omitted if you don't care to manipulate them afterwards, and don't care about the same audio file being played overtop itself
