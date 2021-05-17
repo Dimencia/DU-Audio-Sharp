@@ -28,7 +28,7 @@ namespace DU_Audio_Test_2
     public class ActiveSound : PendingSound
     {
         public VolumeSampleProvider Provider { get; set; }
-        public PausableTimer Timer { get; set; }
+        public PausableTimer DisposalTimer { get; set; }
         public PausableTimer NotificationTimer { get; set; }
 
         public ActiveSound(PendingSound p) : base(p.Sound, p.Volume, p.Key)
