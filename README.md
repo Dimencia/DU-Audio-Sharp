@@ -15,10 +15,12 @@ It is advised to rename your soundpacks to something unique, and input that name
 
 # Lua Scripters
 This works much like ZarTaen's framework, using our new standardized format
+
 The path may not include ../ or ..\
+
 The ID is used so that a. New sounds played with the same ID will stop previous sounds with that ID, and b. Sounds may be paused/stopped/resumed via ID
 
-Available commands and formats:
+## Available commands and formats:
 
 `sound_play|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Plays a concurrent sound
 
