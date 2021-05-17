@@ -172,14 +172,11 @@ namespace DU_Audio_Test_2
                 if (sound is ActiveSound)
                 {
                     var active = sound as ActiveSound;
-                    active.DisposalTimer.Dispose(); // Do not trigger the timer that disposes the sound (we already are doing it)
+                    active.DisposalTimer.Dispose(); // This should be the current timer that's triggering
                     active.DisposalTimer = null;
                     if (active.NotificationTimer != null) // NotificationTimer's purpose is to restore volume levels to normal after playback
                         active.NotificationTimer.Interval = 1; // Advance it immediately
                 }
-
-                t.Dispose();
-                t = null;
             };
             t.AutoReset = false;
             t.Start();
