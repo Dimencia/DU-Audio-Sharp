@@ -14,7 +14,7 @@ It is advised to rename your soundpacks to something unique, and input that name
 
 
 # Lua Scripters
-This works much like ZarTaen's framework, using our new standardized format
+This works much like ZarTaen's framework, using our new standardized format.  In lua, 
 
 The path may not include ../ or ..\
 
