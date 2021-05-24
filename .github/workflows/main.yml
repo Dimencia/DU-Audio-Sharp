@@ -29,6 +29,12 @@ jobs:
               release_name: Auto-build
               draft: true
               prerelease: false
+        - name: Remove old release
+          uses: dev-drprasad/delete-tag-and-release@v0.2.0
+          with: 
+              delete_release: true
+              tag_name: Auto-build
+          env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - name: Upload release
           uses: actions/upload-release-asset@v1.0.1
           env: 
