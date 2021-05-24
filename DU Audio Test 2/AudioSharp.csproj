@@ -18,13 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Ripley Galactic_KICS 4_Audio_KICS_SealtBeltSign.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Ripley Galactic_KICS 4_Audio_KICS_WeHaveALittleProblem.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Ripley Galactic_KICS 4_Audio_Requests_YourShouldReally.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

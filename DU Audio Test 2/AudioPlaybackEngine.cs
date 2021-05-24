@@ -118,7 +118,7 @@ namespace DU_Audio_Test_2
                     string command = arguments[0];
                     if (commandMap.ContainsKey(command))
                     {
-                        arguments = arguments.Skip(1).SkipLast(1).ToArray(); // The first and last entry are garbage (first is the command, last is empty, it ends with |)
+                        arguments = arguments.Skip(1).ToArray(); // The first and last entry are garbage (first is the command, last is empty, it ends with |)
                         commandMap[command](arguments); // Execute the mapped command, giving it the remaining args
                     }
 

@@ -16,9 +16,9 @@ namespace DU_Audio_Test_2
          
         static void Main(string[] args)
         {
-            var seatbelt = new PendingSound(new CachedSound("Ripley Galactic_KICS 4_Audio_KICS_SealtBeltSign.mp3"),100,"sb");
-            var problem = new PendingSound(new CachedSound("Ripley Galactic_KICS 4_Audio_KICS_WeHaveALittleProblem.mp3"),100,"prb");
-            var really = new PendingSound(new CachedSound("Ripley Galactic_KICS 4_Audio_Requests_YourShouldReally.mp3"),100,"rly");
+            //var seatbelt = new PendingSound(new CachedSound("Ripley Galactic_KICS 4_Audio_KICS_SealtBeltSign.mp3"),100,"sb");
+            //var problem = new PendingSound(new CachedSound("Ripley Galactic_KICS 4_Audio_KICS_WeHaveALittleProblem.mp3"),100,"prb");
+            //var really = new PendingSound(new CachedSound("Ripley Galactic_KICS 4_Audio_Requests_YourShouldReally.mp3"),100,"rly");
             //
             //AudioPlaybackEngine.Instance.PlaySound(seatbelt, "sb");
             //AudioPlaybackEngine.Instance.QueueSound(problem, "prb");
