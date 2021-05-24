@@ -94,7 +94,7 @@ namespace DU_Audio_Test_2
             { "sound_resume", Program.sound_resume }
         };
         // A regex to match the contents of any lua-sent logfile message in Group 1
-        private Regex watcherReg = new Regex(@"<message>4176790050\|([^\r\n]*)");
+        private Regex watcherReg = new Regex(@"<message>([^<]*)");
 
         private void Watcher_MessageAvailable(object sender, MessageAvailableEventArgs e)
         {
@@ -151,7 +151,8 @@ namespace DU_Audio_Test_2
             var t = new PausableTimer(sound.Sound.Length);
             t.Elapsed += (object sender, ElapsedEventArgs e) =>
             {
-                // The sound could be any type, we handle each of them
+                // We remove it from Active or Paused sounds, but we don't touch QueuedSounds or QueuedNotifications
+                // The timers for those will remove them at the same time as we're doing this (race condition)
                 if (ActiveSounds.ContainsKey(sound.Key)) // Stop inputs from anything with a matching key
                 {
                     if (ActiveSounds.Remove(sound.Key, out var activeSound))
@@ -174,6 +175,9 @@ namespace DU_Audio_Test_2
                     var active = sound as ActiveSound;
                     active.DisposalTimer.Dispose(); // This should be the current timer that's triggering
                     active.DisposalTimer = null;
+
+                    // This feels weird here, but we can't StopSound because it would interfere with the Queues
+                    // All the collections are handled by their own timers, this should maybe go there instead
                     if (active.NotificationTimer != null) // NotificationTimer's purpose is to restore volume levels to normal after playback
                         active.NotificationTimer.Interval = 1; // Advance it immediately
                 }
@@ -190,30 +194,30 @@ namespace DU_Audio_Test_2
         }
 
         // Generically play or resume an Active or Pending sound, setting up the given timer to trigger when it ends
-        private ActiveSound ResumeAnySound(PendingSound sound, Timer timer)
+        private ActiveSound ResumeAnySound(PendingSound sound, Timer queueTimer)
         {
             if (sound is ActiveSound)
             {
                 var activeSound = sound as ActiveSound;
-                return ResumeActiveSound(activeSound, timer);
+                return ResumeActiveSound(activeSound, queueTimer);
             }
             else
             {
-                timer.Interval = sound.Sound.Length;
-                timer.Enabled = true;
+                queueTimer.Interval = sound.Sound.Length;
+                queueTimer.Enabled = true;
                 Console.WriteLine("Playing sound internally for " + sound.Key);
                 return PlaySoundInternal(sound);
             }
         }
 
         // Resume an ActiveSound that was previously paused, setting up the timer to trigger when it ends
-        private ActiveSound ResumeActiveSound(ActiveSound activeSound, Timer timer)
+        private ActiveSound ResumeActiveSound(ActiveSound activeSound, Timer queueTimer)
         {
             mixer.AddMixerInput(activeSound.Provider);
             // Get the remaining time from the Pausable dispose timer, and setup the given timer
-            timer.Interval = activeSound.DisposalTimer.RemainingAfterPause;
-            Console.WriteLine("Resuming with interval " + timer.Interval);
-            timer.Start();
+            queueTimer.Interval = activeSound.DisposalTimer.RemainingAfterPause;
+            Console.WriteLine("Resuming with interval " + queueTimer.Interval);
+            queueTimer.Start();
             // Re-add it to Active
             ActiveSounds[activeSound.Key] = activeSound;
             // Resume its dispose timer
