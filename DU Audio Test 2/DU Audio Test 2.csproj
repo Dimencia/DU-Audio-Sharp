@@ -23,7 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include=".github\workflows\main.yml" />
+    <None Include="C:\Users\Dimen_hmzu9w6\source\repos\DU Audio Test 2\.github\workflows\main.yml" Link="main.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include=".github\workflows\" />
   </ItemGroup>
 
 </Project>
