@@ -1,10 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+	<GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>
     <RootNamespace>DU_Audio_Test_2</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove=".github\**" />
+    <EmbeddedResource Remove=".github\**" />
+    <None Remove=".github\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.0.0" />
@@ -24,10 +31,6 @@
 
   <ItemGroup>
     <None Include="C:\Users\Dimen_hmzu9w6\source\repos\DU Audio Test 2\.github\workflows\main.yml" Link="main.yml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include=".github\workflows\" />
   </ItemGroup>
 
 </Project>
