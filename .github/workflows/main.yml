@@ -1,40 +1,40 @@
 ﻿on:
     push:
-        branches:
-        - master
+        branches: [master]
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
         - name: Checkout
-        uses: actions/checkout@v1
+          uses: actions/checkout@v1
         - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with: 
-            dotnet-version: 3.1
+          uses: actions/setup-dotnet@v1
+          with: 
+              dotnet-version: 3.1
         - name: Dotnet Publish
-        run: dotnet publish src -c Release -o deploy
+          run: dotnet publish src -c Release -o deploy
         - name: Zip files
-        uses: thedoctor0/zip-release@master
-        with:
-            filename: './AutoBuild.zip'
-            exclusions: '*.git* /*node_modules/* .editorconfig'
-            path: ./deploy
+          uses: thedoctor0/zip-release@master
+          with:
+              filename: './AutoBuild.zip'
+              exclusions: '*.git* /*node_modules/* .editorconfig'
+              path: ./deploy
         - name: Create github Release
-        id: create_release
-        uses: actions/create-release@v1
-        env: 
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with: 
-            tag_name: Auto-build
-            release_name: Auto-build
-            draft: true
-            prerelease: false
-        uses: actions/upload-release-asset@v1.0.1
-        env: 
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with: 
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: ./AutoBuild.zip
-            asset_name: AutoBuild.zip
-            asset_content_type: application/zip
+          id: create_release
+          uses: actions/create-release@v1
+          env: 
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with: 
+              tag_name: Auto-build
+              release_name: Auto-build
+              draft: true
+              prerelease: false
+        - name: Upload release
+          uses: actions/upload-release-asset@v1.0.1
+          env: 
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with: 
+              upload_url: ${{ steps.create_release.outputs.upload_url }}
+              asset_path: ./AutoBuild.zip
+              asset_name: AutoBuild.zip
+              asset_content_type: application/zip
