@@ -34,7 +34,8 @@ jobs:
           with: 
               delete_release: true
               tag_name: Auto-build
-          env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          env: 
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - name: Upload release
           uses: actions/upload-release-asset@v1.0.1
           env: 
