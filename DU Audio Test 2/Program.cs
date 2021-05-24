@@ -33,8 +33,8 @@ namespace DU_Audio_Test_2
             
 
 
-            if (!Directory.Exists("Soundpacks"))
-                Directory.CreateDirectory("Soundpacks");
+            if (!Directory.Exists("audiopacks"))
+                Directory.CreateDirectory("audiopacks");
 
             // We need to make an AudioPlaybackEngine start, which starts reading the logfiles and such
             if (AudioPlaybackEngine.Instance == null)
