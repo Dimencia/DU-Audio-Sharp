@@ -9,11 +9,11 @@ Autobuilds from source in the releases tab.
 Should be working at this time - please report any issues or inconsistencies between this and ZarTaen's Framework - they should both support all the same functionality.  This project is mostly for simpler installs, no config files and only a single executable.
 
 # Common Users
-Once available, download and run the .exe in the Releases tab (or compile it yourself from the source).  Place soundpacks into the Soundpacks folder
+Once available, download and run the .exe in the Releases tab (or compile it yourself from the source).
 
-The soundpacks folder is generated when the application first runs, or you can create it yourself
+The audiopacks folder is generated when the application first runs, or you can create it yourself.  This folder is not enforced, so some lua scripts may not use it, but it is recommended for scripters to put their audiopacks in this folder
 
-It is advised to rename your soundpacks to something unique, and input that name into your scripts (if available), so that the birds at the market can't spam you with noises from the filepaths that they think you have.  Hopefully, the lua scripts will have an export variable where you can enter the filepath to the soundpack you want to use with that script
+It is advised to rename your audiopacks to something unique, and input that name into your scripts (if available), so that the birds at the market can't spam you with noises from the filepaths that they think you have.  Hopefully, the lua scripts will have an export variable where you can enter the filepath to the soundpack you want to use with that script.  ArchHUD is a good example - it will not play sound unless the parameter for the name of the audiopack has been changed from default.
 
 
 # Lua Scripters
