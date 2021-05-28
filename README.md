@@ -6,7 +6,7 @@ ZarTaen's framework found here: https://github.com/ZarTaen/DU_logfile_audioframe
 
 Autobuilds from source in the releases tab.
 
-Currently has issues when converting sample rates, causing some files to play very fast or very slow.  WIP
+Should be working at this time - please report any issues or inconsistencies between this and ZarTaen's Framework - they should both support all the same functionality.  This project is mostly for simpler installs, no config files and only a single executable.
 
 # Common Users
 Once available, download and run the .exe in the Releases tab (or compile it yourself from the source).  Place soundpacks into the Soundpacks folder
