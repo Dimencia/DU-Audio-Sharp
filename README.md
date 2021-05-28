@@ -4,7 +4,9 @@ A copy of ZarTaen's logfile based audio framework, but in C# - easier setup and 
 ZarTaen's framework found here: https://github.com/ZarTaen/DU_logfile_audioframework
 
 
-Currently not available for the public except as source
+Autobuilds from source in the releases tab.
+
+Currently has issues when converting sample rates, causing some files to play very fast or very slow.  WIP
 
 # Common Users
 Once available, download and run the .exe in the Releases tab (or compile it yourself from the source).  Place soundpacks into the Soundpacks folder
