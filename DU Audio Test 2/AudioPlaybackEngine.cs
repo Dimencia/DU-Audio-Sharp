@@ -98,17 +98,18 @@ namespace DU_Audio_Test_2
 
         private void Watcher_MessageAvailable(object sender, MessageAvailableEventArgs e)
         {
-            // The event args just contain the message size.  We need to get the contents
-            var watcher = sender as StreamWatcher;
-            // Read the stream into contents
-            var buffer = new byte[e.MessageSize];
-            watcher.stream.Read(buffer);
-            var contents = System.Text.Encoding.ASCII.GetString(buffer);
 
             //Console.WriteLine(contents);
 
             try
             {
+                // The event args just contain the message size.  We need to get the contents
+                var watcher = sender as StreamWatcher;
+                // Read the stream into contents
+                var buffer = new byte[e.MessageSize];
+                watcher.stream.Read(buffer);
+                var contents = System.Text.Encoding.ASCII.GetString(buffer);
+
                 // Look for lua commands
                 var matches = watcherReg.Matches(contents);
                 foreach (Match match in matches)

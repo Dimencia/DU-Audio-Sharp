@@ -45,8 +45,8 @@ namespace DU_Audio_Test_2
             //AudioPlaybackEngine.Instance.QueueSound(really);
             //Thread.Sleep(1000);
             //AudioPlaybackEngine.Instance.QueueNotification(really);
-
-            Console.Read();
+            while(true)
+                Console.Read();
         }
 
         private static Dictionary<string, CachedSound> cachedFileMap = new Dictionary<string, CachedSound>();
