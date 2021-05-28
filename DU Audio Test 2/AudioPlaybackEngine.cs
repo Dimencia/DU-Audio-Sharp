@@ -340,51 +340,78 @@ namespace DU_Audio_Test_2
         // Relies on uniqueness of key across collections; whenever we start any sound, we stop/remove all other sounds with the same key first
         public void StopSound(string key)
         {
-            PendingSound sound = null;
-            if (QueuedNotifications.Any(q => q.Key == key))
+            if (key == null)
             {
-                var queue = QueuedNotifications.Where(q => q.Key == key).First();
-                sound = queue;
-                QueuedNotifications.Remove(queue);
-            }
-            if (QueuedSounds.Any(q => q.Key == key))
-            {
-                var queue = QueuedSounds.Where(q => q.Key == key).First();
-                sound = queue;
-                Console.WriteLine("Removing queue for colliding key " + key);
-                QueuedSounds.Remove(queue);
-            }
-            // Check if any ActiveSounds already have this key, and stop them
+                // Stop all sounds period...
+                foreach (var pendingSound in QueuedNotifications)
+                    if (pendingSound != null && pendingSound.Key != null)
+                        StopSound(pendingSound.Key);
+                foreach (var queuedSound in QueuedSounds)
+                    if (queuedSound != null && queuedSound.Key != null)
+                        StopSound(queuedSound.Key);
+                foreach (var activeSoundKey in ActiveSounds.Keys)
+                    if (activeSoundKey != null)
+                        StopSound(activeSoundKey);
 
-            if (ActiveSounds.ContainsKey(key)) // Stop inputs from anything with a matching key
-            {
-                sound = ActiveSounds[key];
-                mixer.RemoveMixerInput(ActiveSounds[key].Provider);
+                return;
             }
-            else if (PausedSounds.ContainsKey(key))
+            else
             {
-                sound = PausedSounds[key];
-                PausedSounds.Remove(key, out _);
-            }
-
-            // Advance any timers if available
-            if (sound is ActiveSound)
-            {
-                var active = sound as ActiveSound;
-                if (active.DisposalTimer != null)
+                PendingSound sound = null;
+                if (QueuedNotifications.Any(q => q.Key == key))
                 {
-                    active.DisposalTimer.Dispose(); // We already cleaned up, it would just call this
-                    active.DisposalTimer = null;
+                    var queue = QueuedNotifications.Where(q => q.Key == key).First();
+                    sound = queue;
+                    QueuedNotifications.Remove(queue);
                 }
-                if (active.NotificationTimer != null)
-                    active.NotificationTimer.Interval = 1;
+                if (QueuedSounds.Any(q => q.Key == key))
+                {
+                    var queue = QueuedSounds.Where(q => q.Key == key).First();
+                    sound = queue;
+                    Console.WriteLine("Removing queue for colliding key " + key);
+                    QueuedSounds.Remove(queue);
+                }
+                // Check if any ActiveSounds already have this key, and stop them
+
+                if (ActiveSounds.ContainsKey(key)) // Stop inputs from anything with a matching key
+                {
+                    sound = ActiveSounds[key];
+                    mixer.RemoveMixerInput(ActiveSounds[key].Provider);
+                }
+                else if (PausedSounds.ContainsKey(key))
+                {
+                    sound = PausedSounds[key];
+                    PausedSounds.Remove(key, out _);
+                }
+
+                // Advance any timers if available
+                if (sound is ActiveSound)
+                {
+                    var active = sound as ActiveSound;
+                    if (active.DisposalTimer != null)
+                    {
+                        active.DisposalTimer.Dispose(); // We already cleaned up, it would just call this
+                        active.DisposalTimer = null;
+                    }
+                    if (active.NotificationTimer != null)
+                        active.NotificationTimer.Interval = 1;
+                }
             }
         }
 
         // Pauses a sound by key.  If the sound is a QueuedSound or Notification, it should immediately play the next
         public void PauseSound(string key)
         {
-            if (ActiveSounds.ContainsKey(key))
+            if (key == null)
+            {
+                // Pause all sounds.  
+                foreach (var k in ActiveSounds.Keys)
+                    if (k != null)
+                        PauseSound(k);
+
+                return;
+            }
+            else if (ActiveSounds.ContainsKey(key))
             {
                 var sound = ActiveSounds[key];
                 mixer.RemoveMixerInput(sound.Provider);
@@ -422,7 +449,16 @@ namespace DU_Audio_Test_2
         // But if they resumed, they probably want it soon.  So put it at the front of the queue
         public void ResumeSound(string key)
         {
-            if (PausedSounds.ContainsKey(key))
+            if (key == null)
+            {
+                // Resume all paused sounds.  
+                foreach (var k in PausedSounds.Keys)
+                    if (k != null)
+                        ResumeSound(k);
+
+                return;
+            }
+            else if (PausedSounds.ContainsKey(key))
             {
                 var sound = PausedSounds[key];
                 PausedSounds.Remove(key, out _);
