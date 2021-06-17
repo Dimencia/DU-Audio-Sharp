@@ -45,6 +45,10 @@ namespace DU_Audio_Test_2
             //AudioPlaybackEngine.Instance.QueueSound(really);
             //Thread.Sleep(1000);
             //AudioPlaybackEngine.Instance.QueueNotification(really);
+
+            Console.WriteLine("Framework ready, waiting for sounds");
+            Console.WriteLine("(Press Any Key to Exit)");
+
             while(true)
                 Console.Read();
         }
@@ -59,7 +63,7 @@ namespace DU_Audio_Test_2
             int volume = 100;
             if (input.Length > 2)
                 volume = Math.Clamp(int.Parse(input[2]),0,100); // Throws an exception if invalid, which is good, gets caught outside
-
+            Console.WriteLine("Trying to play file " + path);
             if (File.Exists(path))
             {
                 if (!cachedFileMap.ContainsKey(path))
@@ -67,6 +71,25 @@ namespace DU_Audio_Test_2
                     cachedFileMap[path] = new CachedSound(path);
                 }
                 AudioPlaybackEngine.Instance.PlaySound(new PendingSound(cachedFileMap[path], volume, Id));
+            }
+        }
+
+        // Format: sound_loop|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)
+        public static void sound_loop(string[] input)
+        {
+            string path = input[0];
+            string Id = input[1];
+            int volume = 100;
+            if (input.Length > 2)
+                volume = Math.Clamp(int.Parse(input[2]), 0, 100); // Throws an exception if invalid, which is good, gets caught outside
+            Console.WriteLine("Trying to loop file " + path);
+            if (File.Exists(path))
+            {
+                if (!cachedFileMap.ContainsKey(path))
+                {
+                    cachedFileMap[path] = new CachedSound(path);
+                }
+                AudioPlaybackEngine.Instance.LoopSound(new PendingSound(cachedFileMap[path], volume, Id));
             }
         }
 
@@ -79,7 +102,7 @@ namespace DU_Audio_Test_2
             int volume = 100;
             if (input.Length > 2)
                 volume = Math.Clamp(int.Parse(input[2]), 0, 100);
-
+            Console.WriteLine("Trying to notify file " + path);
             if (File.Exists(path))
             {
                 if (!cachedFileMap.ContainsKey(path))
@@ -97,8 +120,8 @@ namespace DU_Audio_Test_2
             string Id = input[1];
             int volume = 100;
             if (input.Length > 2)
-                volume = Math.Clamp(int.Parse(input[2]), 0, 100); 
-
+                volume = Math.Clamp(int.Parse(input[2]), 0, 100);
+            Console.WriteLine("Trying to queue file " + path);
             if (File.Exists(path))
             {
                 if (!cachedFileMap.ContainsKey(path))

@@ -91,7 +91,8 @@ namespace DU_Audio_Test_2
             { "sound_volume", Program.sound_volume },
             { "sound_pause", Program.sound_pause },
             { "sound_stop", Program.sound_stop },
-            { "sound_resume", Program.sound_resume }
+            { "sound_resume", Program.sound_resume },
+            { "sound_loop", Program.sound_loop }
         };
         // A regex to match the contents of any lua-sent logfile message in Group 1
         private Regex watcherReg = new Regex(@"<message>([^<]*)");
@@ -140,6 +141,13 @@ namespace DU_Audio_Test_2
         {
             StopSound(sound.Key);
             return PlaySoundInternal(sound);
+        }
+
+        // Functions as PlaySound, but doesn't stop previous sounds - discards if they already exist
+        public void LoopSound(PendingSound sound)
+        {
+            if(!ActiveSounds.ContainsKey(sound.Key))
+                PlaySoundInternal(sound);
         }
 
         private ActiveSound PlaySoundInternal(PendingSound sound)

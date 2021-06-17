@@ -41,21 +41,29 @@ namespace DU_Audio_Test_2
 
         protected void WatchNext()
         {
-            stream.BeginRead(sizeBuffer, 0, 2, new AsyncCallback(ReadCallback),
-                null);
+            try
+            {
+                stream.BeginRead(sizeBuffer, 0, 2, new AsyncCallback(ReadCallback),
+                    null);
+            }
+            catch (Exception) { }
         }
 
         private void ReadCallback(IAsyncResult ar)
         {
-            int bytesRead = stream.EndRead(ar);
-            if (bytesRead != 2)
+            try
             {
+                int bytesRead = stream.EndRead(ar);
+                if (bytesRead != 2)
+                {
+                    WatchNext();
+                    return;
+                }
+                int messageSize = sizeBuffer[1] << 8 + sizeBuffer[0];
+                OnMessageAvailable(new MessageAvailableEventArgs(messageSize));
                 WatchNext();
-                return;
             }
-            int messageSize = sizeBuffer[1] << 8 + sizeBuffer[0];
-            OnMessageAvailable(new MessageAvailableEventArgs(messageSize));
-            WatchNext();
+            catch (Exception) { }
         }
 
         public event MessageAvailableEventHandler MessageAvailable;
