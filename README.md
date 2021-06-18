@@ -50,3 +50,8 @@ With sound_loop, they can send the command every tick, and the framework ignores
 
 
 All ID's are strings, and may be omitted if you don't care to manipulate them afterwards, and don't care about the same audio file being played overtop itself
+
+## Audiopack Creators
+Sound randomization is now supported via folders.  So for example, if you wanted to replace BrakeLanding.mp3 with randomized sounds, create a folder in the audiopack named BrakeLanding.mp3, and fill that folder with all the sounds you'd like to randomly play for that event.
+
+Lua scripters do not need to make any changes to scripts for this
