@@ -13,6 +13,8 @@ namespace DU_Audio_Test_2
 {
     class Program
     {
+
+        private static Random random = new Random();
          
         static void Main(string[] args)
         {
@@ -55,6 +57,32 @@ namespace DU_Audio_Test_2
 
         private static Dictionary<string, CachedSound> cachedFileMap = new Dictionary<string, CachedSound>();
 
+        private static CachedSound GetCachedSound(string path)
+        {
+            if (File.Exists(path))
+            {
+                if (!cachedFileMap.ContainsKey(path))
+                {
+                    cachedFileMap[path] = new CachedSound(path);
+                }
+                return cachedFileMap[path];
+            }
+            else if (Directory.Exists(path))
+            {
+                var files = Directory.GetFiles(path);
+                if (files.Length > 0)
+                {
+                    var randomFile = files[random.Next(files.Length)];
+                    if (!cachedFileMap.ContainsKey(randomFile))
+                    {
+                        cachedFileMap[randomFile] = new CachedSound(randomFile);
+                    }
+                    return cachedFileMap[randomFile];
+                }
+            }
+            return null;
+        }
+
         // Format: sound_play|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)
         public static void sound_play(string[] input)
         {
@@ -64,14 +92,11 @@ namespace DU_Audio_Test_2
             if (input.Length > 2)
                 volume = Math.Clamp(int.Parse(input[2]),0,100); // Throws an exception if invalid, which is good, gets caught outside
             Console.WriteLine("Trying to play file " + path);
-            if (File.Exists(path))
-            {
-                if (!cachedFileMap.ContainsKey(path))
-                {
-                    cachedFileMap[path] = new CachedSound(path);
-                }
-                AudioPlaybackEngine.Instance.PlaySound(new PendingSound(cachedFileMap[path], volume, Id));
-            }
+            var sound = GetCachedSound(path);
+            if (sound != null)
+                AudioPlaybackEngine.Instance.PlaySound(new PendingSound(sound, volume, Id));
+            else
+                Console.WriteLine($"File Not Found: {path}");
         }
 
         // Format: sound_loop|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)
@@ -83,14 +108,11 @@ namespace DU_Audio_Test_2
             if (input.Length > 2)
                 volume = Math.Clamp(int.Parse(input[2]), 0, 100); // Throws an exception if invalid, which is good, gets caught outside
             Console.WriteLine("Trying to loop file " + path);
-            if (File.Exists(path))
-            {
-                if (!cachedFileMap.ContainsKey(path))
-                {
-                    cachedFileMap[path] = new CachedSound(path);
-                }
-                AudioPlaybackEngine.Instance.LoopSound(new PendingSound(cachedFileMap[path], volume, Id));
-            }
+            var sound = GetCachedSound(path);
+            if (sound != null)
+                AudioPlaybackEngine.Instance.LoopSound(new PendingSound(sound, volume, Id));
+            else
+                Console.WriteLine($"File Not Found: {path}");
         }
 
         // Format: sound_notification|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100) 
@@ -103,14 +125,11 @@ namespace DU_Audio_Test_2
             if (input.Length > 2)
                 volume = Math.Clamp(int.Parse(input[2]), 0, 100);
             Console.WriteLine("Trying to notify file " + path);
-            if (File.Exists(path))
-            {
-                if (!cachedFileMap.ContainsKey(path))
-                {
-                    cachedFileMap[path] = new CachedSound(path);
-                }
-                AudioPlaybackEngine.Instance.QueueNotification(new PendingSound(cachedFileMap[path], volume, Id));
-            }
+            var sound = GetCachedSound(path);
+            if (sound != null)
+                AudioPlaybackEngine.Instance.QueueNotification(new PendingSound(sound, volume, Id));
+            else
+                Console.WriteLine($"File Not Found: {path}");
         }
 
         // Format: sound_q|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)
@@ -122,14 +141,11 @@ namespace DU_Audio_Test_2
             if (input.Length > 2)
                 volume = Math.Clamp(int.Parse(input[2]), 0, 100);
             Console.WriteLine("Trying to queue file " + path);
-            if (File.Exists(path))
-            {
-                if (!cachedFileMap.ContainsKey(path))
-                {
-                    cachedFileMap[path] = new CachedSound(path);
-                }
-                AudioPlaybackEngine.Instance.QueueSound(new PendingSound(cachedFileMap[path], volume, Id));
-            }
+            var sound = GetCachedSound(path);
+            if (sound != null)
+                AudioPlaybackEngine.Instance.QueueSound(new PendingSound(sound, volume, Id));
+            else
+                Console.WriteLine($"File Not Found: {path}");
         }
 
         // Format: sound_volume|ID(string)|Volume(int 0-100)
