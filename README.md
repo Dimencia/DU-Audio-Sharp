@@ -23,9 +23,16 @@ The path can be an absolute or relative path (to the executable) - usage of Wind
 
 The ID is used so that a. New sounds played with the same ID will stop previous sounds with that ID, and b. Sounds may be paused/stopped/resumed via ID
 
+
+sound_loop is new, I also want to explain what that's for.  With every other command, sending a sound with the same ID will stop the previous sound with that ID.  This is good in many cases, but imagine a stall warning.  The lua coder doesn't know the duration of that sound, they just know they want it to keep looping until they stop stalling.  Without sound_loop, they often have to pick a very short sound because it stops it each time it plays
+
+With sound_loop, they can send the command every tick, and the framework ignores it if the sound is already playing.  If the sound finishes playing, and we see the command the next tick, it starts again, enabling looping behavior
+
 ## Available commands and formats:
 
 `sound_play|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Plays a concurrent sound
+
+`sound_loop|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Plays a concurrent sound, but can be spammed to 'loop' a sound for its duration
 
 `sound_notification|path_to/the.mp3(string)|ID(string)|Optional Volume(int 0-100)` -- Lowers volume on all other sounds for its duration, and plays overtop
 
