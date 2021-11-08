@@ -1,5 +1,5 @@
 # DU-Audio-Sharp
-A copy of ZarTaen's logfile based audio framework, but in C# - easier setup and finer control
+A copy of ZarTaen's logfile based audio framework, but in C# - easier setup and finer control, in theory.  Though I think at this point they are functionally identical, so use whichever one you want
 
 ZarTaen's framework found here: https://github.com/ZarTaen/DU_logfile_audioframework
 
