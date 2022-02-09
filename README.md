@@ -1,4 +1,7 @@
 # DU-Audio-Sharp
+
+NOTE: This project is deprecated.  Dual Universe has removed support for lua logfile interaction, and added their own sound engine instead.  This will no longer work in modern version of Dual Universe
+
 A copy of ZarTaen's logfile based audio framework, but in C# - easier setup and finer control, in theory.  Though I think at this point they are functionally identical, so use whichever one you want
 
 ZarTaen's framework found here: https://github.com/ZarTaen/DU_logfile_audioframework
